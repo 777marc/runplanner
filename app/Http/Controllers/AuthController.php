@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
+
     /**
      * Create a new AuthController instance.
      *
@@ -14,7 +15,9 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', [
+            'except' => ['login', 'register']
+        ]);
     }
 
     /**
@@ -79,5 +82,12 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
+    }
+
+    public function register()
+    {
+        $credentials = request(['email', 'password']);
+        dd('here', $credentials);
+
     }
 }

@@ -27,4 +27,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/workouts', 'WorkoutController@index');
     Route::post('/workouts', 'WorkoutController@store');
     Route::put('/workouts/{id}', 'WorkoutController@update');
+    Route::delete('/workouts/{id}', 'WorkoutController@destroy');
 });

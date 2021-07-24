@@ -51,7 +51,7 @@ class WorkoutController extends Controller
             ]
         ));
 
-        return response()->json($workout, 200);
+        return response()->json($workout, 201);
         
     }
 
@@ -62,9 +62,27 @@ class WorkoutController extends Controller
      * @param  \App\Models\Workout  $workout
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Workout $workout)
+    public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|between:2,100',
+            'duration' => 'required',
+            'distance' => 'required',
+            'pace' => 'required',
+            'type' => 'required',
+        ]);
+
+        $workout = Workout::where('id', $id)->first();
+
+        $workout->name = $request->name;
+        $workout->duration = $request->duration;
+        $workout->distance = $request->distance;
+        $workout->pace = $request->pace;
+        $workout->type = $request->type;
+        $workout->save();
+    
+        return response()->json($workout, 201);
+
     }
 
     /**
@@ -73,8 +91,10 @@ class WorkoutController extends Controller
      * @param  \App\Models\Workout  $workout
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Workout $workout)
+    public function destroy(Workout $workout, $id)
     {
-        //
+        $workout = Workout::find($id);
+        $workout->delete();
+        return response()->json($workout, 204);
     }
 }

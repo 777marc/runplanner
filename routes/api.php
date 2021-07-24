@@ -14,15 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group([
-
-    'middleware' => 'api',
-    'prefix' => 'auth'
-
-], function ($router) {
+Route::middleware('api')->prefix('auth')->group(function ($router) {
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('register', 'AuthController@register');
+});
+
+Route::middleware('auth')->group(function () {
+    // workout
+    Route::get('/workouts', 'WorkoutController@index');
+    Route::post('/workouts', 'WorkoutController@store');
+    Route::put('/workouts/{id}', 'WorkoutController@update');
 });

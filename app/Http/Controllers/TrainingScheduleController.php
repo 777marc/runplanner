@@ -64,12 +64,24 @@ class TrainingScheduleController extends Controller
      * @param  \App\Models\TrainingSchedule  $trainingSchedule
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TrainingSchedule $trainingSchedule)
+    public function update(Request $request, TrainingSchedule $trainingSchedule, $id)
     {
-        return response()->json(
-            ResponseHelper::Ok([], 201), 
-            201
-        );
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|between:2,100',
+            'duration_weeks' => 'required',
+            'goal_distance' => 'required',
+            'start_date' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return ResponseHelper::Ok($validator->errors()->toJson(), 400);
+        }
+
+        $trainingSchedule = TrainingSchedule::find($id);
+
+        $trainingSchedule->fill($request->all())->save();
+
+        return ResponseHelper::Ok($trainingSchedule, 201);
     }
 
     /**
@@ -78,8 +90,10 @@ class TrainingScheduleController extends Controller
      * @param  \App\Models\TrainingSchedule  $trainingSchedule
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TrainingSchedule $trainingSchedule)
+    public function destroy(TrainingSchedule $trainingSchedule, $id)
     {
-        //
+        $trainingSchedule = TrainingSchedule::where('id', $id)->first();
+        $trainingSchedule->delete();
+        return ResponseHelper::Ok(['message' => $id . ' deleted' ], 204);
     }
 }

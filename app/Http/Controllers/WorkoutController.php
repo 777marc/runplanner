@@ -77,8 +77,8 @@ class WorkoutController extends Controller
             'name' => 'required|string|between:2,100',
             'duration' => 'required',
             'distance' => 'required',
-            'pace' => 'required',
             'workout_type_id' => 'required',
+            'pace' => 'required'
         ]);
 
         $workout = Workout::where('id', $id)->first();
@@ -86,7 +86,10 @@ class WorkoutController extends Controller
         $workout->name = $request->name;
         $workout->duration = $request->duration;
         $workout->distance = $request->distance;
-        $workout->pace = $request->pace;
+        $workout->pace = CalcService::calculatePace(
+            $request->distance,
+            $request->duration
+        );
         $workout->workout_type_id = $request->workout_type_id;
         $workout->save();
     
@@ -104,6 +107,6 @@ class WorkoutController extends Controller
     {
         $workout = Workout::find($id);
         $workout->delete();
-        return ResponseHelper::Ok($workout, 204);
+        return ResponseHelper::Ok(['message' => $id . ' deleted' ], 204);
     }
 }

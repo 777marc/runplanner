@@ -28,4 +28,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/workouts', 'WorkoutController@store');
     Route::put('/workouts/{id}', 'WorkoutController@update');
     Route::delete('/workouts/{id}', 'WorkoutController@destroy');
+
+    // training schedule
+    Route::get('/trainingschedules', 'TrainingScheduleController@index');
+    Route::post('/trainingschedules', 'TrainingScheduleController@store');
+    Route::put('/trainingschedules/{id}', 'TrainingScheduleController@update');
+    Route::delete('/trainingschedules/{id}', 'TrainingScheduleController@destroy');
+
 });

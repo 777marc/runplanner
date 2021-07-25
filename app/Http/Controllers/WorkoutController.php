@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Workout;
 use App\Http\Resources\WorkoutResource;
+use App\Http\Responses\ResponseHelper;
 use App\Services\CalcService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,10 +22,7 @@ class WorkoutController extends Controller
         $workouts = Workout::where('user_id', auth()->user()->id)
             ->with('workoutType')
             ->get();
-        return response()->json(
-            WorkoutResource::collection($workouts),
-            200
-        );
+        return ResponseHelper::Ok($workouts, 200);
     }
 
     /**
@@ -44,7 +42,7 @@ class WorkoutController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return ResponseHelper::Ok($validator->errors()->toJson(), 400);
         }
 
         $workout = Workout::create(array_merge(
@@ -62,7 +60,7 @@ class WorkoutController extends Controller
             ]
         ));
 
-        return response()->json($workout, 201);
+        return ResponseHelper::Ok($workout, 201);
         
     }
 
@@ -80,7 +78,7 @@ class WorkoutController extends Controller
             'duration' => 'required',
             'distance' => 'required',
             'pace' => 'required',
-            'type' => 'required',
+            'workout_type_id' => 'required',
         ]);
 
         $workout = Workout::where('id', $id)->first();
@@ -89,10 +87,10 @@ class WorkoutController extends Controller
         $workout->duration = $request->duration;
         $workout->distance = $request->distance;
         $workout->pace = $request->pace;
-        $workout->type = $request->type;
+        $workout->workout_type_id = $request->workout_type_id;
         $workout->save();
     
-        return response()->json($workout, 201);
+        return ResponseHelper::Ok($workout, 201);
 
     }
 
@@ -106,6 +104,6 @@ class WorkoutController extends Controller
     {
         $workout = Workout::find($id);
         $workout->delete();
-        return response()->json($workout, 204);
+        return ResponseHelper::Ok($workout, 204);
     }
 }

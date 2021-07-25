@@ -66,7 +66,10 @@ class TrainingScheduleController extends Controller
      */
     public function update(Request $request, TrainingSchedule $trainingSchedule)
     {
-        //
+        return response()->json(
+            ResponseHelper::Ok([], 201), 
+            201
+        );
     }
 
     /**

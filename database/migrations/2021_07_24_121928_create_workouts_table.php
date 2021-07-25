@@ -19,7 +19,7 @@ class CreateWorkoutsTable extends Migration
             $table->integer('duration');
             $table->double('distance', 8, 2);
             $table->double('pace', 8, 2);
-            $table->integer('type');
+            $table->integer('workout_type_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 

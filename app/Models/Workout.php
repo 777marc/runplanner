@@ -10,4 +10,9 @@ class Workout extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function WorkoutType()
+    {
+        return $this->hasOne(WorkoutType::class, 'id', 'workout_type_id');
+    }
 }

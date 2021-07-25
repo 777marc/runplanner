@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Workout;
+use App\Http\Resources\WorkoutResource;
+use App\Services\CalcService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -16,8 +18,13 @@ class WorkoutController extends Controller
      */
     public function index()
     {
-        $workouts = Workout::where('user_id', auth()->user()->id)->get();        
-        return response()->json($workouts, 200);
+        $workouts = Workout::where('user_id', auth()->user()->id)
+            ->with('workoutType')
+            ->get();
+        return response()->json(
+            WorkoutResource::collection($workouts),
+            200
+        );
     }
 
     /**
@@ -33,7 +40,7 @@ class WorkoutController extends Controller
             'duration' => 'required',
             'distance' => 'required',
             'pace' => 'required',
-            'type' => 'required',
+            'workout_type_id' => 'required',
         ]);
 
         if($validator->fails()){
@@ -46,8 +53,12 @@ class WorkoutController extends Controller
                 'name' => $request->name,
                 'duration' => $request->duration,
                 'distance' => $request->distance,
-                'type' => $request->type,
-                'user_id' => auth()->user()->id
+                'workout_type_id' => $request->workout_type_id,
+                'user_id' => auth()->user()->id,
+                'pace' => CalcService::calculatePace(
+                    $request->distance,
+                    $request->duration
+                )
             ]
         ));
 

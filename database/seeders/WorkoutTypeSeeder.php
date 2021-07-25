@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class WorkoutTypeSeeder extends Seeder
 {
@@ -13,6 +15,13 @@ class WorkoutTypeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $workoutTypes = ['run', 'walk', 'cycle', 'strength'];
+
+        foreach($workoutTypes as $workout) {
+            DB::table('workout_types')->insert([
+                'name' => $workout,
+                'description' => Str::random(20),
+            ]);
+        }
     }
 }

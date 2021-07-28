@@ -107,6 +107,6 @@ class WorkoutController extends Controller
     {
         $workout = Workout::find($id);
         $workout->delete();
-        return ResponseHelper::Ok(['message' => $id . ' deleted' ], 204);
+        return ResponseHelper::Ok(['message' => $id . ' deleted' ], 200);
     }
 }

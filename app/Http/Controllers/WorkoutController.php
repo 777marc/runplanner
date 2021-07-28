@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Workout;
 use App\Http\Resources\WorkoutResource;
-use App\Http\Responses\ResponseHelper;
 use App\Services\CalcService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +21,7 @@ class WorkoutController extends Controller
         $workouts = Workout::where('user_id', auth()->user()->id)
             ->with('workoutType')
             ->get();
-        return ResponseHelper::Ok($workouts, 200);
+        return $this->resOk(WorkoutResource::collection($workouts), 200);
     }
 
     /**
@@ -41,8 +40,8 @@ class WorkoutController extends Controller
             'workout_type_id' => 'required',
         ]);
 
-        if($validator->fails()){
-            return ResponseHelper::Ok($validator->errors()->toJson(), 400);
+        if ($validator->fails()) {
+            return $this->resOk($validator->errors()->toJson(), 400);
         }
 
         $workout = Workout::create(array_merge(
@@ -60,8 +59,7 @@ class WorkoutController extends Controller
             ]
         ));
 
-        return ResponseHelper::Ok($workout, 201);
-        
+        return $this->resOk($workout, 201);
     }
 
     /**
@@ -92,9 +90,8 @@ class WorkoutController extends Controller
         );
         $workout->workout_type_id = $request->workout_type_id;
         $workout->save();
-    
-        return ResponseHelper::Ok($workout, 201);
 
+        return $this->resOk($workout, 201);
     }
 
     /**
@@ -107,6 +104,6 @@ class WorkoutController extends Controller
     {
         $workout = Workout::find($id);
         $workout->delete();
-        return ResponseHelper::Ok(['message' => $id . ' deleted' ], 200);
+        return $this->resOk(['message' => $id . ' deleted'], 200);
     }
 }

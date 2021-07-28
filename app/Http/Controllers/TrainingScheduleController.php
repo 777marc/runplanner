@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\TrainingSchedule;
-use App\Http\Responses\ResponseHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -18,7 +17,7 @@ class TrainingScheduleController extends Controller
     public function index()
     {
         $trainingSchedules = TrainingSchedule::where('user_id', auth()->user()->id)->get();
-        return ResponseHelper::Ok($trainingSchedules);
+        return $this->resOk($trainingSchedules, 200);
     }
 
     /**
@@ -36,8 +35,8 @@ class TrainingScheduleController extends Controller
             'start_date' => 'required',
         ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+        if ($validator->fails()) {
+            return $this->resOk($validator->errors()->toJson(), 400);
         }
 
         $trainingSchedule = TrainingSchedule::create(array_merge(
@@ -52,7 +51,7 @@ class TrainingScheduleController extends Controller
         ));
 
         return response()->json(
-            ResponseHelper::Ok($trainingSchedule, 201), 
+            $this->resOk($trainingSchedule, 201),
             201
         );
     }
@@ -73,15 +72,15 @@ class TrainingScheduleController extends Controller
             'start_date' => 'required',
         ]);
 
-        if($validator->fails()){
-            return ResponseHelper::Ok($validator->errors()->toJson(), 400);
+        if ($validator->fails()) {
+            return $this->resOk($validator->errors()->toJson(), 400);
         }
 
         $trainingSchedule = TrainingSchedule::find($id);
 
         $trainingSchedule->fill($request->all())->save();
 
-        return ResponseHelper::Ok($trainingSchedule, 201);
+        return $this->resOk($trainingSchedule, 201);
     }
 
     /**
@@ -94,6 +93,6 @@ class TrainingScheduleController extends Controller
     {
         $trainingSchedule = TrainingSchedule::where('id', $id)->first();
         $trainingSchedule->delete();
-        return ResponseHelper::Ok(['message' => $id . ' deleted' ], 204);
+        return $this->resOk(['message' => $id . ' deleted'], 204);
     }
 }

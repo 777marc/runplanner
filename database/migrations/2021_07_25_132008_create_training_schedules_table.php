@@ -17,6 +17,7 @@ class CreateTrainingSchedulesTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->integer('duration_weeks');
+            $table->integer('days_per_week');
             $table->string('goal_distance');
             $table->unsignedBigInteger('user_id');
             $table->date('start_date');

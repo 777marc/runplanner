@@ -32,6 +32,7 @@ class TrainingScheduleController extends Controller
             'name' => 'required|string|between:2,100',
             'duration_weeks' => 'required',
             'goal_distance' => 'required',
+            'days_per_week' => 'required',
             'start_date' => 'required',
         ]);
 

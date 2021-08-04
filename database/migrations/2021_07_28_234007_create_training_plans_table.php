@@ -17,6 +17,7 @@ class CreateTrainingPlansTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->integer('day');
+            $table->integer('week');
             $table->double('distance', 8, 2);
             $table->timestamps();
         });

@@ -14,7 +14,8 @@ class TrainingPlanController extends Controller
      */
     public function index()
     {
-        //
+        $trainingPlan = TrainingPlan::all();
+        return $this->resOk($trainingPlan, 200);
     }
 
     /**

@@ -35,4 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/trainingschedules/{id}', 'TrainingScheduleController@update');
     Route::delete('/trainingschedules/{id}', 'TrainingScheduleController@destroy');
 
+    // training plan
+    Route::get('/trainingplans', 'TrainingPlanController@index');
+
 });

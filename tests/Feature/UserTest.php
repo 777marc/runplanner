@@ -47,4 +47,19 @@ class UserTest extends TestCase
         $this->assertEquals($newUser["name"], $response["user"]["name"]);
     }
 
+    /** @test */
+    public function a_registation_error_is_returned()
+    {
+        $baseUrl = env('APP_URL') . '/api/auth/register';
+
+        $newUser = [
+            "name" => "marc",
+            "email" => "777marc@gmail.com",
+            "password" => "marc1111"
+        ];
+
+        $response = $this->json('POST', $baseUrl . '/', $newUser);
+        $response->assertStatus(400);
+    }
+
 }

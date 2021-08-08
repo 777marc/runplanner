@@ -22,7 +22,8 @@ class WorkoutTypeFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->sentence($nbWords = 3),
+            'description' => $this->faker->sentence($nbWords = 3),
         ];
     }
 }

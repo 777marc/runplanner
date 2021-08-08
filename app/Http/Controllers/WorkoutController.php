@@ -62,6 +62,18 @@ class WorkoutController extends Controller
         return $this->resOk($workout, 201);
     }
 
+    public function view(Request $request, $id)
+    {
+        $workout = Workout::where('user_id', auth()->user()->id)
+            ->where('id', $id)
+            ->with('workoutType')
+            ->first();
+        if($workout) {
+            return $this->resOk(new WorkoutResource($workout), 200);
+        } 
+        return $this->resOk([], 200);
+    }
+
     /**
      * Update the specified resource in storage.
      *

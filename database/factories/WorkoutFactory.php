@@ -26,9 +26,9 @@ class WorkoutFactory extends Factory
             'duration' => $this->faker->randomNumber,
             'distance' => $this->faker->randomFloat(2, 0, 10),
             'pace' => 0,
-            'type' => 1,
+            'workout_type_id' => 1,
             'user_id' => 1,
-            'created_on' => now()
+            'created_at' => now()
         ];
     }
 }

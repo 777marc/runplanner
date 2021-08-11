@@ -15,6 +15,8 @@ class WorkoutTypeSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('workout_types')->truncate();
+        
         $workoutTypes = ['run', 'walk', 'cycle', 'strength'];
 
         foreach($workoutTypes as $workout) {

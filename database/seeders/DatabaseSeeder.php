@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Database\Seeders\TrainingPlanSeeder;
+use Database\Seeders\WorkoutTypeSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
         $this->call(TrainingPlanSeeder::class);
+        $this->call(WorkoutTypeSeeder::class);   
     }
 }

@@ -31,6 +31,22 @@ class UserTest extends TestCase
     }
 
     /** @test */
+    public function an_invalid_user_cannot_login()
+    {
+        $user = User::factory()->create();
+        $baseUrl = env('APP_URL') . '/api/auth/login';
+        $email = $user->email;
+        $password = "bad_password";
+    
+        $response = $this->json('POST', $baseUrl . '/', [
+            'email' => $email,
+            'password' => $password
+        ]);
+
+        $response->assertStatus(401);
+    }
+
+    /** @test */
     public function a_user_can_register()
     {
         $baseUrl = env('APP_URL') . '/api/auth/register';

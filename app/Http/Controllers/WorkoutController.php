@@ -62,7 +62,7 @@ class WorkoutController extends Controller
         return $this->resOk($workout, 201);
     }
 
-    public function view(Request $request, $id)
+    public function show(Request $request, $id)
     {
         $workout = Workout::where('user_id', auth()->user()->id)
             ->where('id', $id)

@@ -25,7 +25,7 @@ Route::middleware('api')->prefix('auth')->group(function ($router) {
 Route::middleware('auth')->group(function () {
     // workout
     Route::get('/workouts', 'WorkoutController@index');
-    Route::get('/workouts/{id}', 'WorkoutController@view');
+    Route::get('/workouts/{id}', 'WorkoutController@show');
     Route::post('/workouts', 'WorkoutController@store');
     Route::put('/workouts/{id}', 'WorkoutController@update');
     Route::delete('/workouts/{id}', 'WorkoutController@destroy');
